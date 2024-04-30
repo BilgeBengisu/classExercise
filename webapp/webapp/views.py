@@ -18,24 +18,26 @@ def home(request):
     else:
         return render(request, 'home.html')
 
-def login(request):
-    if request.method == 'POST':
-        login(request)
+
+# login is handled in urls.py
+
 
 def register(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = UserCreationForm(request.POST) #using the django user form
         if form.is_valid():
             user = form.save()
             login(request, user)  # Automatically log in the user after registration
-            return redirect('home')  # Redirect to the desired URL after successful registration
+            return redirect('posts')  # Redirect the user to posts page
     else:
+        #if registration failed, prompt the user again
         form = UserCreationForm()
     return render(request, 'register.html', {'form': form})
 
+#logout
 def logout_view(request):
     logout(request)
-    return redirect('home')
+    return redirect('home') #redirecting the user back to the initial page
 
 @login_required
 def posts(request):
